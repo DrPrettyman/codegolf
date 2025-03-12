@@ -6,7 +6,7 @@ _SEVENTHS={1:'142857',2:'285714',3:'428571',4:'571428',5:'714285',6:'857142'}
 _TENS={1:'ten',2:'twenty',3:'thirty',4:'forty',5:'fifty',6:'sixty',7:'seventy',8:'eighty',9:'ninety'}
 _TEENS={1:'eleven',2:'twelve',3:'thirteen',4:'fourteen',5:'fifteen',6:'sixteen',7:'seventeen',8:'eighteen',9:'nineteen'}
 _POW = {3:'thousand',6:'million',9:'billion',12:'trillion',15:'quadrillion'}
-_FRAC = {5:'a half',25:'a quarter',75:'three quarters',2:'a fifth',4:'two fifths',6:'three fifths',8:'four fifths',125:'an eighth',375:'three eighths',625:'five eighths',875:'five eighths'}
+_FRAC = {'1':'a tenth','5':'a half','25':'a quarter','75':'three quarters','2':'a fifth','3':'three tenths','4':'two fifths','6':'three fifths','7':'seven tenths','8':'four fifths','9':'nine tenths','125':'an eighth','375':'three eighths','625':'five eighths','875':'five eighths'}
 
 def _int_split(n):
     s = str(n)
@@ -26,10 +26,10 @@ def _float_split_dict(x):
     d = _int_split_dict(int(s[0]))
     if len(s) == 1:
         return d
-    elif s[1] == '0':
+    elif int(s[1]) == 0:
         return d
     else:
-        d[-1] = int(s[1])
+        d[-1] = s[1]
         return d
 
 def _get_tens(n):
@@ -93,13 +93,12 @@ def _identify_ninths(s: str):
         return None
 
 
-def _decimal_fraction_repr(n: int, fractions: bool = True):
-    s = str(n)
+def _decimal_fraction_repr(s: str, fractions: bool = True):
     standard_repr = ' '.join(['point'] + [_UNITS[int(_)] for _ in s])
     if not fractions:
         return standard_repr
 
-    r = _FRAC.get(n)
+    r = _FRAC.get(s)
     if r:
         return 'and ' + r
 
